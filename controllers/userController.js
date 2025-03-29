@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 
 const Manager = require('../models/managerModel');
 
-// ✅ Create User
+// Create User
 exports.createUser = async (req, res) => {
     try {
         const { full_name, mob_num, pan_num, manager_id } = req.body;
@@ -21,7 +21,7 @@ exports.createUser = async (req, res) => {
     }
 };
 
-// ✅ Get All Users
+//Get All Users
 exports.getUsers = async (req, res) => {
     try {
         const users = await User.find();
@@ -31,11 +31,11 @@ exports.getUsers = async (req, res) => {
     }
 };
 
-// ✅ Delete User
+//  Delete User
 exports.deleteUser = async (req, res) => {
     try {
-        const { user_id } = req.params;
-        const deletedUser = await User.findOneAndDelete({ user_id });
+        const { user_id } = req.params;  // Use req.params instead of req.body
+        const deletedUser = await User.findOneAndDelete({ _id: user_id });  //  Use _id instead of user_id
 
         if (!deletedUser) {
             return res.status(404).json({ error: "User not found" });
@@ -47,14 +47,14 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-// ✅ Update User
+//  Update User
 exports.updateUser = async (req, res) => {
     try {
         const { user_id } = req.params;
         const updates = req.body;
         updates.updated_at = Date.now();
 
-        const updatedUser = await User.findByIdAndUpdate(user_id, updates, { new: true });  // ✅ Use _id instead of user_id
+        const updatedUser = await User.findByIdAndUpdate(user_id, updates, { new: true });  //  Use _id instead of user_id
 
         if (!updatedUser) {
             return res.status(404).json({ error: "User not found" });
